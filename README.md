@@ -1,3 +1,7 @@
+<p align="center">
+  <img style="width: 50%; align:center;" src="https://github.com/UmbraDeorum/zsh-screensaver/blob/main/zsh-screensaver-logo.png?raw=true"/>
+</p>
+
 # zsh-screensaver
 A customizable terminal screensaver for ZSH that activates after a period of inactivity, featuring multiple display styles including animated GIFs.
 
