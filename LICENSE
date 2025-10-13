@@ -19,3 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+Third-party dependencies:
+
+This software may be used with gif-for-cli, which is licensed under 
+the Apache License, Version 2.0. When using GIF features, please 
+comply with the Apache 2.0 license requirements.
+
+gif-for-cli: https://github.com/aero31x/gif-for-cli
+Apache License 2.0: http://www.apache.org/licenses/LICENSE-2.0
