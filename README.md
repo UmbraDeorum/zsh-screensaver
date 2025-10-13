@@ -1,6 +1,12 @@
 # zsh-screensaver
 A customizable terminal screensaver for ZSH that activates after a period of inactivity, featuring multiple display styles including animated GIFs.
 
+![ZSH](https://img.shields.io/badge/ZSH-Screensaver-blue?logo=gnu-bash&logoColor=white)
+![Shell](https://img.shields.io/badge/Shell-ZSH-orange)
+![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux-lightgrey)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Dependencies](https://img.shields.io/badge/Dependencies-Optional-yellow)
+
 ## Features
 🕐 Auto-activation - Triggers after configurable idle time (default: 5 minutes)
 
@@ -15,20 +21,25 @@ A customizable terminal screensaver for ZSH that activates after a period of ina
 ⚙️ Easy Control - Enable/disable/test with simple commands
 
 ## Installation
-1. Add to your `.zshrc`
-  - download `.screensaver` and add it to `/home/$USER/.screensaver`.
-  - add `source /home/$USER/.screensaver` line to your `~/.zshrc` file.
+  - download `.screensaver` and move it to `/home/$USER/.screensaver`.
+  - add the following:
+    
+    ```bash
+    source /home/$USER/.screensaver
+    ```
+    at the end of your `~/.zshrc` file.
 
-2. Install Dependencies (Required for GIF terminal screensavers)
-For GIF support, install [gif-for-cli](https://github.com/google/gif-for-cli).
+2. Install Dependencies (Required for GIF terminal screensavers): [gif-for-cli](https://github.com/google/gif-for-cli)
 
 3. Reload Configuration
+
 ```bash
 source ~/.zshrc
 ```
 
 ## Configuration
 ### Basic Settings
+
 ```bash
 # Set timeout (in seconds)
 SCREENSAVER_TIMEOUT=300  # 5 minutes
@@ -46,7 +57,9 @@ The script includes multiple screensaver styles. Change the `show_gif_overlay` c
 - **show_gif_overlay** - Random animated GIF display from user-defined array
 
 ## Usage
+
 ### Control Commands
+
 | Command |	Description |
 | :------ | :---------: |
 | `ss-on`	| Enable screensaver |
@@ -54,6 +67,7 @@ The script includes multiple screensaver styles. Change the `show_gif_overlay` c
 | `ss-test`| 	Test screensaver immediately |
 
 ## Customization
+
 ### Adding GIFs
 Edit the gifs array in `show_gif_overlay()` to add your own Tenor GIF URLs:
 
@@ -100,17 +114,18 @@ show_custom_overlay() {
 <img width="500" height="800" alt="image" src="https://github.com/user-attachments/assets/1bd0a7c9-e612-4937-bab7-eb7e4dd531c0" />
 
 ## Troubleshooting
+
 ### GIFs Not Displaying
-1. Ensure gif-for-cli is installed: npm install -g gif-for-cli
-2. Check internet connection for GIF loading
+1. Ensure `gif-for-cli` is installed.
+2. Check internet connection for GIF loading.
 
 ### Screensaver Not Activating
-1. Verify SCREENSAVER_ENABLED=true
-2. Check that hooks are properly loaded in zsh
+1. Verify `SCREENSAVER_ENABLED=true`.
+2. Check that hooks are properly loaded in zsh.
 
 ### Flickering with GIFs
-1. The script automatically reduces dimensions to prevent terminal flicker
-2. Uses conservative sizing for stable playback
+1. The script automatically reduces dimensions to prevent terminal flicker.
+2. Uses conservative sizing for stable playback.
 
 ## License
 Free to use and modify. Feel free to contribute improvements!
