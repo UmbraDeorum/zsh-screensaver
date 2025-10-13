@@ -133,3 +133,8 @@ show_custom_overlay() {
 
 ## License
 Free to use and modify. Feel free to contribute improvements!
+
+### Optional Dependency Licensing
+
+The optional `gif-for-cli` dependency is licensed under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). 
+When using the GIF features, please comply with both licenses.
