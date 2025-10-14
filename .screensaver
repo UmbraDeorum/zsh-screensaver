@@ -16,7 +16,9 @@ TRAPALRM() {
         SCREENSAVER_ACTIVE=true
                 
         # Trigger the screensaver display function
-        show_gif_overlay || show_banner_overlay || show_fancy_overlay || exit 1
+        show_gif_overlay || show_banner_overlay ||show_fancy_overlay || exit 1
+
+        SCREENSAVER_ACTIVE=false
     fi
 }
 
