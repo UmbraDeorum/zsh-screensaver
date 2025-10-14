@@ -3,7 +3,7 @@
 </p>
 
 # zsh-screensaver
-A customizable terminal screensaver for ZSH that activates after a period of inactivity, featuring multiple display styles including animated GIFs.
+A customizable terminal screensaver for ZSH that activates after a period of inactivity, featuring multiple display styles, including animated GIFs.
 
 ![ZSH](https://img.shields.io/badge/ZSH-Screensaver-blue?logo=gnu-bash&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-ZSH-orange)
