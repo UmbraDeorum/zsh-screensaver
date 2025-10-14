@@ -1,5 +1,5 @@
 # Screensaver configuration
-SCREENSAVER_TIMEOUT=10 # 600  # 10 minutes in seconds
+SCREENSAVER_TIMEOUT=600  # 10 minutes in seconds
 SCREENSAVER_ENABLED=true
 
 # Internal variables
@@ -79,17 +79,14 @@ show_gif_overlay() {
 
     # Show random GIF from list
     gif-for-cli -m truecolor "$random_gif" --rows $rows --cols $cols -l 0
-#    local gif_pid=$!
+    local gif_pid=$!
 
     # Restore terminal settings
     stty "$original_stty"
 
-    # Wait for any key
-#    read -s -k
-
     # Kill the gif process
-#    kill $gif_pid 2>/dev/null
-#    wait $gif_pid 2>/dev/null  # Clean up zombie process
+    kill $gif_pid 2>/dev/null
+    wait $gif_pid 2>/dev/null  # Clean up zombie process
     
     # Restore original screen content
     printf '\033[?1049l'
