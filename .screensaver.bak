@@ -1,10 +1,11 @@
 # Screensaver configuration
-SCREENSAVER_TIMEOUT=300  # 5 minutes in seconds
+SCREENSAVER_TIMEOUT=600  # 10 minutes in seconds
 SCREENSAVER_ENABLED=true
 
 # Internal variables
 SCREENSAVER_LAST_ACTIVITY=$(date +%s)
 SCREENSAVER_ACTIVE=false
+FOREGROUND_PROCESS_START_TIME=0
 
 # Function to show true overlay
 show_screensaver_overlay() {
@@ -32,11 +33,8 @@ show_gif_overlay() {
     local gifs=(
         "https://tenor.com/view/hacker-hacker-man-hacking-hackers-hack-gif-23864910"
         "https://tenor.com/view/hacker-man-hacker-neon-ps4-glitched-gif-20054441"
-# Cyberpunk "https://tenor.com/view/lets-go-johnny-silverhand-keanu-reeves-cyberpunk2077-shades-off-gif-26950453"
         "https://tenor.com/view/pokemon-fire-red-leaf-green-remake-snorlax-gif-23083502"
         "https://tenor.com/view/lr-teq-vegeta-giant-ape-furious-last-resort-overwhelming-combat-final-bullet-attack-hyper-explosive-wave-gif-5882373243771434785"
-# Star Wars "https://tenor.com/view/star-wars-star-wars-episode-v-darth-vader-luke-skywalker-fighting-with-light-sabers-gif-11534021580856389985"
-# Warhammer "https://tenor.com/view/warhammer-40k-space-marine-helmet-warhammer-40k-space-marine-astartes-spacem-arine-armor-gif-9266730404172402530"
     )
 
     # Save cursor and hide it
@@ -61,12 +59,30 @@ show_gif_overlay() {
     (( rows < 10 )) && rows=10
     (( cols < 20 )) && cols=20
 
+    # Show instruction at bottom
+    local lines=$(tput lines)
+    printf '\033[%d;1H\033[44m\033[97m' $((lines - 1))
+    echo " Press Ctrl+C to exit screensaver... "
+    printf '\033[0m'
+
+    # Move cursor to a safe position to run gif-for-cli in foreground
+    printf '\033[2;1H'
+
+    # Save terminal settings
+    local original_stty
+    original_stty=$(stty -g)
+
+    # Configure terminal to ignore regular keypresses
+    stty intr ^C
+    stty -echo -icanon
+    stty susp undef quit undef eof undef
+
     # Show random GIF from list
     gif-for-cli -m truecolor "$random_gif" --rows $rows --cols $cols -l 0
     local gif_pid=$!
 
-    # Wait for any key
-    read -s -k
+    # Restore terminal settings
+    stty "$original_stty"
 
     # Kill the gif process
     kill $gif_pid 2>/dev/null
@@ -158,7 +174,7 @@ check_screensaver() {
     if [[ $SCREENSAVER_ENABLED != "true" ]] || [[ $SCREENSAVER_ACTIVE == "true" ]]; then
         return
     fi
-    
+
     local current_time=$(date +%s)
     local time_diff=$((current_time - SCREENSAVER_LAST_ACTIVITY))
     
@@ -171,11 +187,22 @@ check_screensaver() {
 
 # Hook into ZSH
 screensaver_preexec() {
-    update_activity
+    # Record when a foreground process starts
+    FOREGROUND_PROCESS_START_TIME=$(date +%s)
 }
 
 screensaver_precmd() {
+    # If a foreground process just finished, update activity with its end time
+    if (( FOREGROUND_PROCESS_START_TIME > 0 )); then
+        SCREENSAVER_LAST_ACTIVITY=$(date +%s)
+        FOREGROUND_PROCESS_START_TIME=0
+    fi
+    
     check_screensaver
+}
+
+screensaver_postexec() {
+    update_activity
 }
 
 autoload -Uz add-zsh-hook
