@@ -1,10 +1,11 @@
 # Screensaver configuration
-SCREENSAVER_TIMEOUT=300  # 5 minutes in seconds
+SCREENSAVER_TIMEOUT=10 # 600  # 10 minutes in seconds
 SCREENSAVER_ENABLED=true
 
 # Internal variables
 SCREENSAVER_LAST_ACTIVITY=$(date +%s)
 SCREENSAVER_ACTIVE=false
+FOREGROUND_PROCESS_START_TIME=0
 
 # Function to show true overlay
 show_screensaver_overlay() {
@@ -176,7 +177,7 @@ check_screensaver() {
     if [[ $SCREENSAVER_ENABLED != "true" ]] || [[ $SCREENSAVER_ACTIVE == "true" ]]; then
         return
     fi
-    
+
     local current_time=$(date +%s)
     local time_diff=$((current_time - SCREENSAVER_LAST_ACTIVITY))
     
@@ -189,11 +190,22 @@ check_screensaver() {
 
 # Hook into ZSH
 screensaver_preexec() {
-    update_activity
+    # Record when a foreground process starts
+    FOREGROUND_PROCESS_START_TIME=$(date +%s)
 }
 
 screensaver_precmd() {
+    # If a foreground process just finished, update activity with its end time
+    if (( FOREGROUND_PROCESS_START_TIME > 0 )); then
+        SCREENSAVER_LAST_ACTIVITY=$(date +%s)
+        FOREGROUND_PROCESS_START_TIME=0
+    fi
+    
     check_screensaver
+}
+
+screensaver_postexec() {
+    update_activity
 }
 
 autoload -Uz add-zsh-hook
