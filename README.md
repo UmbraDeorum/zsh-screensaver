@@ -18,9 +18,9 @@ A customizable terminal screensaver for ZSH that activates after a period of ina
 
 🖼️ GIF Support - Random animated GIFs from curated collection
 
-⌨️ Smart Detection - Tracks all terminal activity (typing, commands, navigation)
+⌨️ Smart Detection - Uses ZSH TMOUT and TRAPALRM for reliable idle detection
 
-🔄 Seamless Restoration - Press any key to return to your exact terminal state (Ctrl+C, then any key for GIFs)
+🔄 Seamless Restoration - Press any key to return to your exact terminal state (Ctrl+C for GIFs)
 
 ⚙️ Easy Control - Enable/disable/test with simple commands
 
@@ -46,7 +46,7 @@ source ~/.zshrc
 
 ```bash
 # Set timeout (in seconds)
-SCREENSAVER_TIMEOUT=300  # 5 minutes
+SCREENSAVER_TIMEOUT=600  # 10 minutes
 
 # Enable/disable screensaver
 SCREENSAVER_ENABLED=true
@@ -55,10 +55,9 @@ SCREENSAVER_ENABLED=true
 ### Screensaver Styles
 The script includes multiple screensaver styles. Change the `show_gif_overlay` call in `check_screensaver()` to use different styles:
 
+- **show_gif_overlay** - Random animated GIF display from user-defined array
 - **show_banner_overlay** - Minimal red banner at top
 - **show_fancy_overlay** - Centered box with semi-transparent background
-- **show_screensaver_overlay** - Blue banner overlay
-- **show_gif_overlay** - Random animated GIF display from user-defined array
 
 ## Usage
 
@@ -80,6 +79,7 @@ bash
 local gifs=(
     "https://tenor.com/view/your-gif-url-here"
     "https://tenor.com/view/another-gif-here"
+    "/home/asdfasdfname/path/to/local/gif/here"
 )
 ```
 
@@ -87,7 +87,7 @@ local gifs=(
 Modify the SCREENSAVER_TIMEOUT variable:
 
 ```bash
-# 10 minute timeout
+# 10 minute timeout (default)
 SCREENSAVER_TIMEOUT=600
 
 # 2 minute timeout  
@@ -107,15 +107,12 @@ show_custom_overlay() {
 ```
 
 ## Technical Details
-- Uses ZSH hooks (preexec, precmd) for activity detection
+- Uses ZSH TMOUT variable and TRAPALRM function for reliable idle detection
 - Implements terminal escape sequences for overlay display
 - Preserves terminal state using alternative buffer
 - Background process management for GIF playback
 - Cross-platform compatible (macOS, Linux)
-
-### Activity monitoring graph
-
-<img width="500" height="800" alt="image" src="https://github.com/user-attachments/assets/1bd0a7c9-e612-4937-bab7-eb7e4dd531c0" />
+- Automatic dimension calculation to prevent terminal flicker
 
 ## Troubleshooting
 
@@ -126,10 +123,6 @@ show_custom_overlay() {
 ### Screensaver Not Activating
 1. Verify `SCREENSAVER_ENABLED=true`.
 2. Check that hooks are properly loaded in zsh.
-
-### Flickering with GIFs
-1. The script automatically reduces dimensions to prevent terminal flicker.
-2. Uses conservative sizing for stable playback.
 
 ## License
 Free to use and modify. Feel free to contribute improvements!
