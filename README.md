@@ -114,7 +114,7 @@ show_custom_overlay() {
 - Cross-platform compatible (macOS, Linux)
 - Automatic dimension calculation to prevent terminal flicker
 
-## What it look like with GIFs 
+## What it looks like with GIFs 
 
 ![zsh-screensaver](https://github.com/user-attachments/assets/25c266d5-73e0-4582-bcce-81e5a1da1e56)
 
